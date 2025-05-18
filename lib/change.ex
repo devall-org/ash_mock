@@ -17,8 +17,8 @@ defmodule AshMock.Change do
       end)
 
     init_params = Map.merge(cs.attributes, cs.arguments)
-    populate = AshMock.Info.mock_populate!(cs.resource)
-    omit = AshMock.Info.mock_omit!(cs.resource)
+    enforce_random = AshMock.Info.mock_enforce_random!(cs.resource)
+    exclude = AshMock.Info.mock_exclude!(cs.resource)
 
     random_params =
       cs.resource
@@ -27,8 +27,8 @@ defmodule AshMock.Change do
         %{
           action: cs.action.name,
           init_params: init_params,
-          populate: populate,
-          omit: omit,
+          enforce_random: enforce_random,
+          exclude: exclude,
           include_defaults?: false
         },
         ash

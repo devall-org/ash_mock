@@ -62,21 +62,21 @@ defmodule AshMock do
     Define arguments, changes, and other mock-related settings here.
     """,
     schema: [
-      populate: [
+      enforce_random: [
         type: {:wrap_list, :atom},
         required: false,
         default: [],
         doc: """
-        Fields to be populated by AshRandomParams.
+        Fields to be randomized by AshRandomParams.
         See `AshRandomParams` for more details.
         """
       ],
-      omit: [
+      exclude: [
         type: {:wrap_list, :atom},
         required: false,
         default: [],
         doc: """
-        Fields to be omitted by AshRandomParams.
+        Fields to be excluded by AshRandomParams.
         See `AshRandomParams` for more details.
         """
       ],
@@ -95,8 +95,8 @@ defmodule AshMock do
     examples: [
       """
       mock do
-        populate [:email, :age]
-        omit [:name]
+        enforce_random [:email, :age]
+        exclude [:name]
         upsert_identity :company_name
 
         argument :type, :string
