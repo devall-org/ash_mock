@@ -3,9 +3,8 @@ defmodule AshMock.Change do
 
   alias Ash.Resource.Relationships.BelongsTo
 
-  def change(%Ash.Changeset{} = cs, _opts, ctx) do
-    ash = ctx |> Ash.Context.to_opts()
-
+  def change(%Ash.Changeset{} = cs, [deep?: deep?], ctx) do
+    ash_opts = ctx |> Ash.Context.to_opts()
     tenant_attr = Ash.Resource.Info.multitenancy_attribute(cs.resource)
 
     belongs_toes =
@@ -31,9 +30,9 @@ defmodule AshMock.Change do
           exclude: exclude,
           include_defaults?: false
         },
-        ash
+        ash_opts
       )
-      |> Ash.run_action!(ash |> Keyword.put(:authorize?, false))
+      |> Ash.run_action!(ash_opts |> Keyword.put(:authorize?, false))
 
     attr_names = cs.resource |> Ash.Resource.Info.attributes() |> Enum.map(& &1.name)
 
@@ -43,10 +42,10 @@ defmodule AshMock.Change do
     cs
     |> Ash.Changeset.change_attributes(random_attrs)
     |> Ash.Changeset.set_arguments(random_args)
-    |> change_belongs_toes(belongs_toes, ash)
+    |> change_belongs_toes(belongs_toes, deep?, ash_opts)
   end
 
-  defp change_belongs_toes(cs, belongs_toes, ash) do
+  defp change_belongs_toes(cs, belongs_toes, deep?, ash_opts) do
     belongs_toes
     |> Enum.reduce(
       cs,
@@ -63,8 +62,8 @@ defmodule AshMock.Change do
           end
 
         %BelongsTo{allow_nil?: false} = b, cs ->
-          # source_attribute는 reject에 포함되어 있어서, fac을 부를때 전달할수는 없지만,
-          # pre_change에서 set_attribute 될수 있음.
+          # source_attribute is included in reject, so it cannot be passed when calling mock,
+          # but it can be set in pre_change.
           parent_id = cs |> Ash.Changeset.fetch_change(b.source_attribute)
 
           parent =
@@ -76,7 +75,7 @@ defmodule AshMock.Change do
               :error -> :error
             end)
 
-          case {parent_id, parent, cs.action.name} do
+          case {parent_id, parent, deep?} do
             {{:ok, _change}, _, _} ->
               cs
 
@@ -85,14 +84,14 @@ defmodule AshMock.Change do
               |> Ash.Changeset.manage_relationship(b.name, parent, type: :append_and_remove)
               |> Ash.Changeset.change_attribute(b.source_attribute, parent && parent.id)
 
-            {:error, :error, :mock} ->
+            {:error, :error, false} ->
               cs
 
-            {:error, :error, :mock_deep} ->
+            {:error, :error, true} ->
               parent =
                 b.destination
-                |> Ash.Changeset.for_create(:mock_deep, %{}, ash)
-                |> Ash.create!(ash)
+                |> Ash.Changeset.for_create(:mock_deep, %{}, ash_opts)
+                |> Ash.create!(ash_opts)
 
               cs
               |> Ash.Changeset.set_argument(b.name, parent)

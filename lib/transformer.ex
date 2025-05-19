@@ -38,20 +38,23 @@ defmodule AshMock.Transformer do
 
     dsl_state
     |> add_action(
+      :mock,
       {attrs, args},
-      :mock
+      false
     )
     |> add_action(
+      :mock_deep,
       {attrs, args},
-      :mock_deep
+      true
     )
     |> then(fn dsl_state -> {:ok, dsl_state} end)
   end
 
   defp add_action(
          dsl_state,
+         action,
          {attrs, args},
-         action
+         deep?
        ) do
     [pre_changes, post_changes] =
       [
@@ -67,7 +70,7 @@ defmodule AshMock.Transformer do
         end)
       end)
 
-    factory_change = %Ash.Resource.Change{change: {AshMock.Change, []}}
+    factory_change = %Ash.Resource.Change{change: {AshMock.Change, [deep?: deep?]}}
     changes = pre_changes ++ [factory_change] ++ post_changes
 
     dsl_state

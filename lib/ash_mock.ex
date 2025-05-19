@@ -10,7 +10,7 @@ defmodule AshMock do
   @argument %Spark.Dsl.Entity{
     name: :argument,
     describe: """
-    Declares an argument for the mock and mock_deep actions.
+    Declares an argument for mock and mock_deep actions.
     """,
     examples: [
       "argument :password_confirmation, :string"
@@ -25,8 +25,7 @@ defmodule AshMock do
     name: :pre_change,
     describe: """
     A change to be applied to the changeset before generating mock data.
-
-    See `Ash.Resource.Change` for more details.
+    See `Ash.Resource.Change` for more information.
     """,
     examples: [
       "pre_change relate_actor(:reporter)",
@@ -42,8 +41,7 @@ defmodule AshMock do
     name: :post_change,
     describe: """
     A change to be applied to the changeset after generating mock data.
-
-    See `Ash.Resource.Change` for more details.
+    See `Ash.Resource.Change` for more information.
     """,
     examples: [
       "post_change relate_actor(:reporter)",
@@ -67,8 +65,8 @@ defmodule AshMock do
         required: false,
         default: [],
         doc: """
-        Fields to be randomized by AshRandomParams.
-        See `AshRandomParams` for more details.
+        Fields that will be randomized by AshRandomParams.
+        See `AshRandomParams` for more information.
         """
       ],
       exclude: [
@@ -76,8 +74,8 @@ defmodule AshMock do
         required: false,
         default: [],
         doc: """
-        Fields to be excluded by AshRandomParams.
-        See `AshRandomParams` for more details.
+        Fields that will be excluded by AshRandomParams.
+        See `AshRandomParams` for more information.
         """
       ]
     ],
