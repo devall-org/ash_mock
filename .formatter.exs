@@ -16,7 +16,6 @@ spark_locals_without_parens = [
   pre_change: 2,
   public?: 1,
   sensitive?: 1,
-  upsert_identity: 1,
   where: 1
 ]
 
