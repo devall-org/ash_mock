@@ -36,8 +36,6 @@ defmodule AshMock.Transformer do
 
     args = factory_args ++ belongs_to_args
 
-    upsert_identity = dsl_state |> Transformer.get_option([:mock], :upsert_identity, nil)
-
     dsl_state
     |> add_action(
       {attrs, args},
@@ -49,18 +47,6 @@ defmodule AshMock.Transformer do
       nil,
       :mock_deep
     )
-    |> then(fn dsl_state ->
-      if upsert_identity do
-        dsl_state
-        |> add_action(
-          {attrs, args},
-          upsert_identity,
-          :mock_new
-        )
-      else
-        dsl_state
-      end
-    end)
     |> then(fn dsl_state -> {:ok, dsl_state} end)
   end
 
