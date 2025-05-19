@@ -36,38 +36,21 @@ defmodule AshMock.Transformer do
 
     args = factory_args ++ belongs_to_args
 
-    upsert_identity = dsl_state |> Transformer.get_option([:mock], :upsert_identity, nil)
-
     dsl_state
     |> add_action(
       {attrs, args},
-      nil,
       :mock
     )
     |> add_action(
       {attrs, args},
-      nil,
       :mock_deep
     )
-    |> then(fn dsl_state ->
-      if upsert_identity do
-        dsl_state
-        |> add_action(
-          {attrs, args},
-          upsert_identity,
-          :mock_new
-        )
-      else
-        dsl_state
-      end
-    end)
     |> then(fn dsl_state -> {:ok, dsl_state} end)
   end
 
   defp add_action(
          dsl_state,
          {attrs, args},
-         upsert_identity,
          action
        ) do
     [pre_changes, post_changes] =
@@ -91,9 +74,6 @@ defmodule AshMock.Transformer do
     |> Builder.add_action(:create, action,
       accept: attrs |> Enum.map(& &1.name),
       arguments: args,
-      upsert?: upsert_identity != nil,
-      upsert_identity: upsert_identity,
-      upsert_fields: [],
       changes: changes
     )
     |> Builder.add_interface(action)

@@ -10,7 +10,7 @@ defmodule AshMock do
   @argument %Spark.Dsl.Entity{
     name: :argument,
     describe: """
-    Declares an argument for the mock, mock_deep, and mock_new actions.
+    Declares an argument for the mock and mock_deep actions.
     """,
     examples: [
       "argument :password_confirmation, :string"
@@ -58,7 +58,7 @@ defmodule AshMock do
   @mock %Spark.Dsl.Section{
     name: :mock,
     describe: """
-    Configuration settings for mock, mock_deep, and mock_new actions.
+    Configuration settings for mock and mock_deep actions.
     Define arguments, changes, and other mock-related settings here.
     """,
     schema: [
@@ -79,13 +79,6 @@ defmodule AshMock do
         Fields to be excluded by AshRandomParams.
         See `AshRandomParams` for more details.
         """
-      ],
-      upsert_identity: [
-        type: :atom,
-        required: false,
-        doc: """
-        The identity to use when upserting records in the mock_new action.
-        """
       ]
     ],
     imports: [
@@ -97,7 +90,6 @@ defmodule AshMock do
       mock do
         enforce_random [:email, :age]
         exclude [:name]
-        upsert_identity :company_name
 
         argument :type, :string
         argument :content, :string
