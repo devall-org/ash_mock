@@ -9,7 +9,7 @@ defmodule AshMock.MixProject do
       consolidate_protocols: Mix.env() not in [:dev, :test],
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      description: "A mock resource generator extension for Ash resources.",
+      description: "A shallow_mock resource generator extension for Ash resources.",
       package: package(),
       source_url: "https://github.com/devall-org/ash_mock",
       homepage_url: "https://github.com/devall-org/ash_mock",

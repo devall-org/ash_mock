@@ -16,8 +16,8 @@ defmodule AshMock.Change do
       end)
 
     init_params = Map.merge(cs.attributes, cs.arguments)
-    enforce_random = AshMock.Info.mock_enforce_random!(cs.resource)
-    exclude = AshMock.Info.mock_exclude!(cs.resource)
+    enforce_random = AshMock.Info.shallow_mock_enforce_random!(cs.resource)
+    exclude = AshMock.Info.shallow_mock_exclude!(cs.resource)
 
     random_params =
       cs.resource
@@ -62,7 +62,7 @@ defmodule AshMock.Change do
           end
 
         %BelongsTo{allow_nil?: false} = b, cs ->
-          # source_attribute is included in reject, so it cannot be passed when calling mock,
+          # source_attribute is included in reject, so it cannot be passed when calling shallow_mock,
           # but it can be set in pre_change.
           parent_id = cs |> Ash.Changeset.fetch_change(b.source_attribute)
 

@@ -10,7 +10,7 @@ defmodule AshMock do
   @argument %Spark.Dsl.Entity{
     name: :argument,
     describe: """
-    Declares an argument for mock and mock_deep actions.
+    Declares an argument for shallow_mock and mock_deep actions.
     """,
     examples: [
       "argument :password_confirmation, :string"
@@ -24,7 +24,7 @@ defmodule AshMock do
   @pre_change %Spark.Dsl.Entity{
     name: :pre_change,
     describe: """
-    A change to be applied to the changeset before generating mock data.
+    A change to be applied to the changeset before generating shallow_mock data.
     See `Ash.Resource.Change` for more information.
     """,
     examples: [
@@ -40,7 +40,7 @@ defmodule AshMock do
   @post_change %Spark.Dsl.Entity{
     name: :post_change,
     describe: """
-    A change to be applied to the changeset after generating mock data.
+    A change to be applied to the changeset after generating shallow_mock data.
     See `Ash.Resource.Change` for more information.
     """,
     examples: [
@@ -53,11 +53,11 @@ defmodule AshMock do
     args: [:change]
   }
 
-  @mock %Spark.Dsl.Section{
-    name: :mock,
+  @shallow_mock %Spark.Dsl.Section{
+    name: :shallow_mock,
     describe: """
-    Configuration settings for mock and mock_deep actions.
-    Define arguments, changes, and other mock-related settings here.
+    Configuration settings for shallow_mock and mock_deep actions.
+    Define arguments, changes, and other shallow_mock-related settings here.
     """,
     schema: [
       enforce_random: [
@@ -85,7 +85,7 @@ defmodule AshMock do
     ],
     examples: [
       """
-      mock do
+      shallow_mock do
         enforce_random [:email, :age]
         exclude [:name]
 
@@ -110,7 +110,7 @@ defmodule AshMock do
   }
 
   use Spark.Dsl.Extension,
-    sections: [@mock],
+    sections: [@shallow_mock],
     transformers: [AshMock.Transformer],
     add_extensions: [AshRandomParams]
 end

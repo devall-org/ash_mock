@@ -26,7 +26,7 @@ defmodule AshMock.Transformer do
 
     factory_args =
       dsl_state
-      |> Transformer.get_entities([:mock])
+      |> Transformer.get_entities([:shallow_mock])
       |> Enum.filter(fn
         %Argument{} -> true
         %{} -> false
@@ -38,7 +38,7 @@ defmodule AshMock.Transformer do
 
     dsl_state
     |> add_action(
-      :mock,
+      :shallow_mock,
       {attrs, args},
       false
     )
@@ -63,7 +63,7 @@ defmodule AshMock.Transformer do
       ]
       |> Enum.map(fn change_type ->
         dsl_state
-        |> Transformer.get_entities([:mock])
+        |> Transformer.get_entities([:shallow_mock])
         |> Enum.flat_map(fn
           %^change_type{} = change -> [%{change | __struct__: Ash.Resource.Change}]
           _ -> []
