@@ -38,12 +38,12 @@ defmodule AshMock.Transformer do
 
     dsl_state
     |> add_action(
-      :mock,
+      :shallow_mock,
       {attrs, args},
       false
     )
     |> add_action(
-      :mock_deep,
+      :mock,
       {attrs, args},
       true
     )

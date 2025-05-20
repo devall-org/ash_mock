@@ -57,17 +57,17 @@ defmodule AshMockTest.Case do
     end
   end
 
-  test "mock_deep" do
-    post = Post |> Ash.Changeset.for_create(:mock_deep) |> Ash.create!()
+  test "mock" do
+    post = Post |> Ash.Changeset.for_create(:mock) |> Ash.create!()
 
     assert post.author.name |> String.starts_with?("name-")
     assert post.title |> String.starts_with?("title-")
     assert post.tag == nil
   end
 
-  test "mock" do
-    author = Author |> Ash.Changeset.for_create(:mock) |> Ash.create!()
-    post = Post |> Ash.Changeset.for_create(:mock, %{author: author}) |> Ash.create!()
+  test "shallow_mock" do
+    author = Author |> Ash.Changeset.for_create(:shallow_mock) |> Ash.create!()
+    post = Post |> Ash.Changeset.for_create(:shallow_mock, %{author: author}) |> Ash.create!()
 
     assert author.id == post.author_id
 
