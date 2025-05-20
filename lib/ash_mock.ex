@@ -10,7 +10,7 @@ defmodule AshMock do
   @argument %Spark.Dsl.Entity{
     name: :argument,
     describe: """
-    Declares an argument for shallow_mock and mock_deep actions.
+    Declares an argument for shallow_mock and mock actions.
     """,
     examples: [
       "argument :password_confirmation, :string"
@@ -56,7 +56,7 @@ defmodule AshMock do
   @shallow_mock %Spark.Dsl.Section{
     name: :shallow_mock,
     describe: """
-    Configuration settings for shallow_mock and mock_deep actions.
+    Configuration settings for shallow_mock and mock actions.
     Define arguments, changes, and other shallow_mock-related settings here.
     """,
     schema: [

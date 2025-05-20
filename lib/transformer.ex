@@ -43,7 +43,7 @@ defmodule AshMock.Transformer do
       false
     )
     |> add_action(
-      :mock_deep,
+      :mock,
       {attrs, args},
       true
     )

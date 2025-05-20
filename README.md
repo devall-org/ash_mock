@@ -68,8 +68,8 @@ end
 ### Example Test
 
 ```elixir
-test "mock_deep" do
-  post = Post |> Ash.Changeset.for_create(:mock_deep) |> Ash.create!()
+test "mock" do
+  post = Post |> Ash.Changeset.for_create(:mock) |> Ash.create!()
 
   assert post.author.name |> String.starts_with?("name-")
   assert post.title |> String.starts_with?("title-")

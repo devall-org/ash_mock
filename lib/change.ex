@@ -90,7 +90,7 @@ defmodule AshMock.Change do
             {:error, :error, true} ->
               parent =
                 b.destination
-                |> Ash.Changeset.for_create(:mock_deep, %{}, ash_opts)
+                |> Ash.Changeset.for_create(:mock, %{}, ash_opts)
                 |> Ash.create!(ash_opts)
 
               cs
