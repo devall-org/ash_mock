@@ -62,7 +62,7 @@ defmodule AshMock.Change do
           end
 
         %BelongsTo{allow_nil?: false} = b, cs ->
-          # source_attribute is included in reject, so it cannot be passed when calling shallow_mock,
+          # source_attribute is included in reject, so it cannot be passed when calling mock,
           # but it can be set in pre_change.
           parent_id = cs |> Ash.Changeset.fetch_change(b.source_attribute)
 

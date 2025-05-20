@@ -1,6 +1,6 @@
 # AshMock
 
-A shallow_mock resource generator extension for Ash resources.
+A mock resource generator extension for Ash resources.
 
 ## Installation
 
@@ -16,7 +16,7 @@ end
 
 ## Usage
 
-AshMock provides a convenient way to generate shallow_mock resource for your Ash resources. Here's how to use it:
+AshMock provides a convenient way to generate mock resource for your Ash resources. Here's how to use it:
 
 ```elixir
 defmodule Post do
@@ -90,9 +90,9 @@ end
 
 ## Features
 
-- Automatic shallow_mock resource generation for Ash resources
+- Automatic mock resource generation for Ash resources
 - Deep relationship mocking
-- Customizable shallow_mock data patterns
+- Customizable mock data patterns
 - Random value generation using AshRandomParams (see https://github.com/devall-org/ash_random_params for more information)
 
 ## License
