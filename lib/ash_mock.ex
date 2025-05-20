@@ -53,8 +53,8 @@ defmodule AshMock do
     args: [:change]
   }
 
-  @shallow_mock %Spark.Dsl.Section{
-    name: :shallow_mock,
+  @mock %Spark.Dsl.Section{
+    name: :mock,
     describe: """
     Configuration settings for shallow_mock and mock actions.
     Define arguments, changes, and other shallow_mock-related settings here.
@@ -85,7 +85,7 @@ defmodule AshMock do
     ],
     examples: [
       """
-      shallow_mock do
+      mock do
         enforce_random [:email, :age]
         exclude [:name]
 
@@ -110,7 +110,7 @@ defmodule AshMock do
   }
 
   use Spark.Dsl.Extension,
-    sections: [@shallow_mock],
+    sections: [@mock],
     transformers: [AshMock.Transformer],
     add_extensions: [AshRandomParams]
 end
