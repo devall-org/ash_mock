@@ -11,7 +11,7 @@ defmodule AshMock.Transformer do
   def before?(_), do: false
 
   def after?(Ash.Resource.Transformers.BelongsToAttribute), do: true
-  def after?(AshRankable.Transformer), do: true
+  def after?(Rift.Rankable.Transformer), do: true
   def after?(_), do: false
 
   def transform(dsl_state) do
