@@ -9,7 +9,7 @@ Add `ash_mock` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:ash_mock, "~> 0.2.0"}
+    {:ash_mock, "~> 0.2.1"}
   ]
 end
 ```

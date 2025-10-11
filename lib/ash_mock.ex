@@ -1,10 +1,26 @@
 defmodule AshMock do
   defmodule PreChange do
-    defstruct [:change, :on, :only_when_valid?, :description, :always_atomic?, where: []]
+    defstruct [
+      :change,
+      :on,
+      :only_when_valid?,
+      :description,
+      :always_atomic?,
+      :__spark_metadata__,
+      where: []
+    ]
   end
 
   defmodule PostChange do
-    defstruct [:change, :on, :only_when_valid?, :description, :always_atomic?, where: []]
+    defstruct [
+      :change,
+      :on,
+      :only_when_valid?,
+      :description,
+      :always_atomic?,
+      :__spark_metadata__,
+      where: []
+    ]
   end
 
   @argument %Spark.Dsl.Entity{
