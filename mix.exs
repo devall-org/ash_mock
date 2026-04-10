@@ -4,7 +4,7 @@ defmodule AshMock.MixProject do
   def project do
     [
       app: :ash_mock,
-      version: "0.2.2",
+      version: "0.3.0",
       elixir: "~> 1.17",
       consolidate_protocols: Mix.env() not in [:dev, :test],
       start_permanent: Mix.env() == :prod,

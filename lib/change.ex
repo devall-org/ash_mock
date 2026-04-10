@@ -15,7 +15,7 @@ defmodule AshMock.Change do
         _ -> false
       end)
 
-    init_params = Map.merge(cs.attributes, cs.arguments)
+    init_params = cs |> build_init_params()
     enforce_random = AshMock.Info.mock_enforce_random!(cs.resource)
     exclude = AshMock.Info.mock_exclude!(cs.resource)
 
@@ -43,6 +43,18 @@ defmodule AshMock.Change do
     |> Ash.Changeset.change_attributes(random_attrs)
     |> Ash.Changeset.set_arguments(random_args)
     |> change_belongs_toes(belongs_toes, deep?, ash_opts)
+  end
+
+  defp build_init_params(cs) do
+    generated_attrs =
+      cs.resource
+      |> Ash.Resource.Info.attributes()
+      |> Enum.filter(& &1.generated?)
+      |> Enum.map(& &1.name)
+
+    cs.attributes
+    |> Map.drop(generated_attrs)
+    |> Map.merge(cs.arguments)
   end
 
   defp change_belongs_toes(cs, belongs_toes, deep?, ash_opts) do
