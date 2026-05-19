@@ -64,13 +64,8 @@ defmodule AshMock.Change do
       fn
         %BelongsTo{allow_nil?: true} = b, cs ->
           case cs |> Ash.Changeset.fetch_argument(b.name) do
-            {:ok, parent} ->
-              cs
-              |> Ash.Changeset.manage_relationship(b.name, parent, type: :append_and_remove)
-              |> Ash.Changeset.change_attribute(b.source_attribute, parent && parent.id)
-
-            :error ->
-              cs
+            {:ok, parent} -> cs |> set_belongs_to(b, parent)
+            :error -> cs
           end
 
         %BelongsTo{allow_nil?: false} = b, cs ->
@@ -92,9 +87,7 @@ defmodule AshMock.Change do
               cs
 
             {:error, {:ok, parent}, _} ->
-              cs
-              |> Ash.Changeset.manage_relationship(b.name, parent, type: :append_and_remove)
-              |> Ash.Changeset.change_attribute(b.source_attribute, parent && parent.id)
+              cs |> set_belongs_to(b, parent)
 
             {:error, :error, false} ->
               cs
@@ -107,10 +100,26 @@ defmodule AshMock.Change do
 
               cs
               |> Ash.Changeset.set_argument(b.name, parent)
-              |> Ash.Changeset.manage_relationship(b.name, parent, type: :append_and_remove)
-              |> Ash.Changeset.change_attribute(b.source_attribute, parent.id)
+              |> set_belongs_to(b, parent)
           end
       end
     )
+  end
+
+  # Set the FK directly and attach the parent as the loaded relationship via an
+  # after_action hook. This mirrors how `Ash.Resource.Change.RelateActor` handles
+  # belongs_to since ash 3.25.3, and avoids queuing a `manage_relationship`
+  # instruction that could later overwrite the FK set by other changes
+  # (e.g. resource-level `relate_actor`).
+  defp set_belongs_to(cs, b, nil) do
+    cs |> Ash.Changeset.change_attribute(b.source_attribute, nil)
+  end
+
+  defp set_belongs_to(cs, b, parent) do
+    cs
+    |> Ash.Changeset.change_attribute(b.source_attribute, parent.id)
+    |> Ash.Changeset.after_action(fn _cs, record ->
+      {:ok, record |> Map.put(b.name, parent)}
+    end)
   end
 end
